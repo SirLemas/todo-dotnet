@@ -3,6 +3,7 @@ using TodoApi.Models;
 using TodoApi.Services;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Contexts;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace TodoApi.Controllers;
 
@@ -18,30 +19,22 @@ public class AuthController : ControllerBase
         _context = context;
     }
 
-    [HttpPost("login")]
-    public async Task<ActionResult<TokenService>> Login(User user)
+    public class LoginRequest
     {
-        //procura usuário no banco de dados
-        bool userExist = await getUser(user);
+        public string Email {get;set;}
+        public string Password {get;set;}
+    }
 
-        if (!userExist) 
+    [HttpPost("login")]
+    public async Task<ActionResult<TokenService>> Login([FromBody] LoginRequest loginRequest)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginRequest.Email && u.Password == loginRequest.Password);
+
+        if (user == null) 
         {
             return new JsonResult(new {message = "usuario nao encontrado no sistema!"}) {StatusCode = StatusCodes.Status400BadRequest};
         }
 
         return new JsonResult(_tokenService.GenerateToken(user)) { StatusCode = StatusCodes.Status200OK };
-    }
-
-    private async Task<bool> getUser(User user)
-    {
-        //procura usuário no banco de dados e retorna true ou false;
-        //usar email e password
-        var userFound = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == user.Password);
-
-        if (userFound != null) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }
