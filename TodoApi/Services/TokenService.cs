@@ -1,4 +1,3 @@
-using TodoApi.Configurations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
