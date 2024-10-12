@@ -11,4 +11,8 @@ public class TodoItem
     public string? Description {get; set;}
 
     public bool isDone {get; set;} = false;
+
+
+    public long UserId { get; set; }
+    public User? User { get; set; } 
 }
