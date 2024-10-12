@@ -20,7 +20,6 @@ public class TokenService
         var handler = new JwtSecurityTokenHandler();
 
         // criar um array de bytes com a chave gerada
-        // var key = Encoding.ASCII.GetBytes(Configuration.PrivateKey);
         var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
 
         //REALIZA A ASSINATURA DO TOKEN E QUAL ALGORITMO PARA ENCRIPTAR O TOKEN
