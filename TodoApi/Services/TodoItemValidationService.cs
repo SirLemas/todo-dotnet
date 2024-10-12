@@ -15,7 +15,7 @@ public class TodoItemValidationService
 
         if (!string.IsNullOrWhiteSpace(todoItem.Title) && todoItem.Title.Length < 5) 
         {
-            errors.Add("O campo Titulo deve ter pelo menos 5 caractere.");
+            errors.Add("O campo Titulo deve ter pelo menos 5 caracteres.");
         }
 
         if (string.IsNullOrWhiteSpace(todoItem.Description))
