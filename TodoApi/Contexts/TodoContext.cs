@@ -6,6 +6,14 @@ namespace TodoApi.Contexts;
 public class TodoContext : DbContext
 {
     public TodoContext (DbContextOptions<TodoContext> options) : base(options) {}
+    public DbSet<TodoItem> TodoItems {get; set;}
 
-    public DbSet<TodoItem> TodoItems {get; set;} = null!;
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<TodoItem>()
+            .HasOne(t => t.User)
+            .WithMany() 
+            .HasForeignKey(t => t.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 }
